@@ -52,7 +52,7 @@ Source14:       droid.kmap
 Group:		System
 #BuildArch:	noarch
 # To provide systemd services and udev rules
-Requires:       droid-system-packager
+# Requires:       droid-system-packager
 # Note that oneshot is not in mer-core (yet)
 BuildRequires:  oneshot
 BuildRequires:  mer-kernel-checks
@@ -252,9 +252,6 @@ mkdir -p $RPM_BUILD_ROOT/boot
 mkdir -p $RPM_BUILD_ROOT/lib/modules
 
 # Install
-cp -a %{android_root}/out/target/product/%{device}/system/bin/updater $RPM_BUILD_ROOT/boot/update-binary
-cp -a %{android_root}/out/target/product/%{device}/hybris-updater-script $RPM_BUILD_ROOT/boot
-cp -a %{android_root}/out/target/product/%{device}/hybris-updater-unpack.sh $RPM_BUILD_ROOT/boot
 
 cp -a %{android_root}/out/target/product/%{device}/root/. $RPM_BUILD_ROOT/
 cp -a %{android_root}/out/target/product/%{device}/system/{bin,lib} $RPM_BUILD_ROOT%{_libexecdir}/droid-hybris/system/.
@@ -357,12 +354,9 @@ mkdir -p $MOD_DIR
 cp -a out/target/product/%{device}/system/lib/modules/. $MOD_DIR/.
 cp -a out/target/product/%{device}/system/lib/modules/. $MOD_DIR/.
 cp -a out/target/product/%{device}/obj/KERNEL_OBJ/modules.builtin $MOD_DIR/. || true
-cp -a out/target/product/%{device}/obj/KERNEL_OBJ/modules.order $MOD_DIR/. || true
 
 # Images are installed to /boot - they'll probably be unpacked using
 # rpm2cpio mostly anyhow
-cp out/target/product/%{device}/hybris-boot.img $RPM_BUILD_ROOT/boot/
-cp out/target/product/%{device}/hybris-recovery.img $RPM_BUILD_ROOT/boot/
 
 ################################################################
 # Begin pre/post section
@@ -471,14 +465,6 @@ done
 
 %files img-boot
 %defattr(644,root,root,-)
-/boot/hybris-boot.img
-/boot/update-binary
-/boot/hybris-updater-script
-/boot/hybris-updater-unpack.sh
-
-%files img-recovery
-%defattr(644,root,root,-)
-/boot/hybris-recovery.img
 
 %files pulseaudio-settings
 %defattr(644,root,root,-)
